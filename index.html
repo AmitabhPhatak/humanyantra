@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HumanYantra — AI for Human Good</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+:root {
+  --ink:    #0f0f0f;
+  --mid:    #6b6b6b;
+  --light:  #f5f5f3;
+  --white:  #ffffff;
+  --accent: #c8520a;
+  --border: #e4e4e0;
+  --card:   #fafaf8;
+}
+
+body {
+  font-family: 'Geist', system-ui, sans-serif;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:99;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 60px;
+  display: flex; align-items:center;
+  padding: 0 40px;
+  gap: 40px;
+}
+
+.nav-logo {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.25em;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  margin-right: auto;
+}
+.nav-logo span { color: var(--accent); }
+
+.nav-link {
+  font-size: 0.85em;
+  color: var(--mid);
+  text-decoration: none;
+  transition: color 0.15s;
+  font-weight: 500;
+}
+.nav-link:hover { color: var(--ink); }
+
+.nav-cta {
+  font-size: 0.82em;
+  font-weight: 600;
+  color: var(--white);
+  background: var(--ink);
+  padding: 8px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.nav-cta:hover { background: var(--accent); }
+
+/* ── LAYOUT ── */
+.container { max-width: 960px; margin: 0 auto; padding: 0 40px; }
+
+/* ── HERO ── */
+.hero {
+  padding: 140px 40px 100px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.hero-kicker {
+  font-size: 0.78em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+  display: flex; align-items:center; gap:8px;
+}
+.hero-kicker::before {
+  content:'';
+  display:inline-block;
+  width:20px; height:1px;
+  background: var(--accent);
+}
+
+.hero h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(3em, 6vw, 5em);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin-bottom: 28px;
+  max-width: 800px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero-sub {
+  font-size: 1.1em;
+  color: var(--mid);
+  max-width: 520px;
+  line-height: 1.7;
+  margin-bottom: 44px;
+  font-weight: 300;
+}
+
+.hero-actions {
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex; align-items:center; gap:6px;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 0.88em;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-family: 'Geist', sans-serif;
+}
+.btn-dark {
+  background: var(--ink); color: var(--white);
+}
+.btn-dark:hover { background: var(--accent); }
+.btn-outline {
+  border: 1.5px solid var(--border);
+  color: var(--ink);
+  background: transparent;
+}
+.btn-outline:hover { border-color: var(--ink); }
+
+/* ── DIVIDER ── */
+hr.section-rule {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+/* ── SECTION BASE ── */
+section { padding: 80px 0; }
+
+.section-label {
+  font-size: 0.72em;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 40px;
+  display: flex; align-items:center; gap:10px;
+}
+.section-label::after {
+  content:'';
+  flex:1;
+  height:1px;
+  background: var(--border);
+}
+
+/* ── APP FEATURE ── */
+.app-section { background: var(--light); }
+
+.app-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.app-tag {
+  display: inline-block;
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid #c8520a44;
+  padding: 4px 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.app-inner h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(1.8em, 3vw, 2.6em);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+.app-inner h2 em { font-style:italic; color:var(--accent); }
+
+.app-inner p {
+  color: var(--mid);
+  line-height: 1.75;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+.feature-list {
+  list-style: none;
+  margin: 24px 0 32px;
+}
+.feature-list li {
+  display: flex; align-items:flex-start; gap:10px;
+  font-size: 0.88em;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--mid);
+}
+.feature-list li:last-child { border:none; }
+.feature-list li::before {
+  content: '→';
+  color: var(--accent);
+  font-weight: 600;
+  flex-shrink:0;
+  margin-top:1px;
+}
+
+/* App preview mockup */
+.app-mockup {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+}
+.mockup-bar {
+  background: var(--ink);
+  padding: 12px 16px;
+  display: flex; align-items:center; gap:8px;
+}
+.mockup-dot {
+  width:10px; height:10px; border-radius:50%;
+}
+.mockup-title {
+  font-size:0.75em; color:rgba(255,255,255,0.5);
+  margin-left:8px; font-weight:500;
+}
+.mockup-body { padding: 20px; }
+
+.marker-item {
+  display: flex; align-items:center; justify-content:space-between;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 0.82em;
+}
+.marker-item.ok   { background:#16a34a11; }
+.marker-item.warn { background:#c8520a11; }
+.marker-item.low  { background:#d9770611; }
+
+.marker-name { font-weight:600; color: var(--ink); }
+.marker-val  { font-weight:700; font-size:1.05em; }
+.val-ok   { color:#16a34a; }
+.val-warn { color:#c8520a; }
+.val-low  { color:#d97706; }
+
+.mockup-tip {
+  margin-top:12px;
+  background: #c8520a0d;
+  border-left: 3px solid var(--accent);
+  padding: 10px 14px;
+  border-radius: 0 6px 6px 0;
+  font-size:0.78em;
+  color: var(--accent);
+  font-weight:500;
+}
+
+/* ── BLOG SECTION ── */
+.blogs-header {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom: 40px;
+}
+.blogs-header h2 {
+  font-family:'Instrument Serif', serif;
+  font-size:1.8em;
+  letter-spacing:-0.02em;
+}
+
+.blog-grid {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow:hidden;
+}
+
+.blog-card {
+  background: var(--white);
+  padding: 36px;
+  text-decoration: none;
+  color: inherit;
+  display:block;
+  transition: background 0.2s;
+  position: relative;
+}
+.blog-card:hover { background: var(--card); }
+
+.blog-num {
+  font-family:'Instrument Serif', serif;
+  font-size:3em;
+  color: var(--border);
+  line-height:1;
+  margin-bottom:16px;
+  font-style:italic;
+}
+
+.blog-tag {
+  font-size:0.72em;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:10px;
+}
+
+.blog-card h3 {
+  font-family:'Instrument Serif', serif;
+  font-size:1.25em;
+  line-height:1.3;
+  letter-spacing:-0.01em;
+  margin-bottom:12px;
+  color:var(--ink);
+}
+
+.blog-card p {
+  font-size:0.85em;
+  color:var(--mid);
+  line-height:1.65;
+  font-weight:300;
+  margin-bottom:20px;
+}
+
+.blog-meta {
+  font-size:0.75em;
+  color:var(--mid);
+  display:flex; align-items:center; gap:8px;
+}
+.blog-meta-dot { color:var(--border); }
+
+.blog-arrow {
+  position:absolute;
+  top:36px; right:36px;
+  font-size:1.2em;
+  color:var(--border);
+  transition: all 0.2s;
+}
+.blog-card:hover .blog-arrow {
+  color:var(--accent);
+  transform:translate(3px,-3px);
+}
+
+.blog-more {
+  margin-top:1px;
+  background:var(--white);
+  display:flex; align-items:center; justify-content:center;
+  padding:24px;
+  gap:8px;
+  font-size:0.85em;
+  font-weight:600;
+  color:var(--mid);
+  text-decoration:none;
+  transition: all 0.2s;
+  grid-column: span 2;
+  border-top: 1px solid var(--border);
+}
+.blog-more:hover { color:var(--accent); background:var(--card); }
+
+/* ── COMING SOON CARDS ── */
+.coming-grid {
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap:16px;
+  margin-top:40px;
+}
+
+.coming-card {
+  border:1.5px dashed var(--border);
+  border-radius:10px;
+  padding:32px;
+  position:relative;
+  overflow:hidden;
+}
+
+.coming-badge {
+  display:inline-block;
+  font-size:0.68em;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  background:var(--light);
+  color:var(--mid);
+  padding:3px 10px;
+  border-radius:4px;
+  margin-bottom:16px;
+}
+
+.coming-icon {
+  font-size:2em;
+  margin-bottom:12px;
+  display:block;
+}
+
+.coming-card h3 {
+  font-family:'Instrument Serif', serif;
+  font-size:1.1em;
+  margin-bottom:8px;
+  letter-spacing:-0.01em;
+}
+
+.coming-card p {
+  font-size:0.82em;
+  color:var(--mid);
+  line-height:1.65;
+  font-weight:300;
+}
+
+/* ── NEWSLETTER ── */
+.newsletter-section {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.newsletter-inner {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:center;
+}
+
+.newsletter-inner h2 {
+  font-family:'Instrument Serif', serif;
+  font-size:clamp(1.8em,3vw,2.6em);
+  line-height:1.15;
+  letter-spacing:-0.02em;
+  margin-bottom:12px;
+}
+.newsletter-inner h2 em { font-style:italic; color:#f5a623; }
+
+.newsletter-inner p {
+  color:rgba(255,255,255,0.5);
+  font-weight:300;
+  line-height:1.7;
+}
+
+.nl-form { display:flex; flex-direction:column; gap:10px; }
+
+.nl-input {
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:6px;
+  padding:12px 16px;
+  color:white;
+  font-size:0.9em;
+  font-family:'Geist',sans-serif;
+  outline:none;
+  transition:border-color 0.2s;
+}
+.nl-input:focus { border-color:rgba(255,255,255,0.3); }
+.nl-input::placeholder { color:rgba(255,255,255,0.3); }
+
+.nl-row { display:flex; gap:8px; }
+.nl-row .nl-input { flex:1; }
+
+.nl-btn {
+  background:#f5a623;
+  color:#0f0f0f;
+  border:none;
+  padding:12px 20px;
+  border-radius:6px;
+  font-weight:700;
+  font-size:0.85em;
+  cursor:pointer;
+  font-family:'Geist',sans-serif;
+  transition:opacity 0.2s;
+  white-space:nowrap;
+}
+.nl-btn:hover { opacity:0.85; }
+
+.nl-note {
+  font-size:0.72em;
+  color:rgba(255,255,255,0.25);
+}
+
+.nl-divider {
+  border:none;
+  border-top:1px solid rgba(255,255,255,0.08);
+  margin:32px 0;
+}
+
+/* ── FOOTER ── */
+footer {
+  background:#080808;
+  padding:48px 40px 32px;
+}
+
+.footer-inner {
+  max-width:960px;
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:40px;
+  padding-bottom:32px;
+  border-bottom:1px solid #ffffff0f;
+  flex-wrap:wrap;
+}
+
+.footer-logo {
+  font-family:'Instrument Serif', serif;
+  font-size:1.1em;
+  color:rgba(255,255,255,0.8);
+  text-decoration:none;
+}
+.footer-logo span { color:#f5a623; }
+
+.footer-tagline {
+  font-size:0.78em;
+  color:rgba(255,255,255,0.3);
+  margin-top:6px;
+  max-width:220px;
+  line-height:1.6;
+  font-weight:300;
+}
+
+.footer-links {
+  display:flex; gap:60px;
+}
+
+.footer-col h4 {
+  font-size:0.72em;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.25);
+  margin-bottom:14px;
+}
+
+.footer-col a {
+  display:block;
+  font-size:0.85em;
+  color:rgba(255,255,255,0.5);
+  text-decoration:none;
+  margin-bottom:8px;
+  transition:color 0.15s;
+  font-weight:300;
+}
+.footer-col a:hover { color:rgba(255,255,255,0.9); }
+
+.footer-bottom {
+  max-width:960px;
+  margin:24px auto 0;
+  display:flex;
+  justify-content:space-between;
+  font-size:0.72em;
+  color:rgba(255,255,255,0.2);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.hero > * {
+  animation: fadeUp 0.5s ease both;
+}
+.hero-kicker { animation-delay:0s; }
+.hero h1     { animation-delay:0.08s; }
+.hero-sub    { animation-delay:0.16s; }
+.hero-actions { animation-delay:0.24s; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  nav { padding:0 20px; gap:20px; }
+  .nav-link { display:none; }
+  .hero { padding:110px 20px 80px; }
+  .container { padding:0 20px; }
+  .app-inner { grid-template-columns:1fr; gap:40px; }
+  .blog-grid { grid-template-columns:1fr; }
+  .blog-more { grid-column:span 1; }
+  .coming-grid { grid-template-columns:1fr; }
+  .newsletter-inner { grid-template-columns:1fr; gap:40px; }
+  .footer-inner { flex-direction:column; gap:32px; }
+  .footer-links { gap:32px; flex-wrap:wrap; }
+  .nl-row { flex-direction:column; }
+  section { padding:60px 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">Human<span>Yantra</span></a>
+  <a href="#app" class="nav-link">Health App</a>
+  <a href="#blog" class="nav-link">Blog</a>
+  <a href="#coming" class="nav-link">Coming Soon</a>
+  <a href="#newsletter" class="nav-link">Newsletter</a>
+  <a href="https://remedies-hxzwsywbjbmetgmzvuhrn6.streamlit.app/" target="_blank" class="nav-cta">Open App →</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-kicker">AI for Human Good</div>
+  <h1>Tools that put<br><em>people first</em></h1>
+  <p class="hero-sub">
+    HumanYantra is a platform for AI tools, ideas, and conversations that genuinely help people — in health, knowledge, and daily life.
+  </p>
+  <div class="hero-actions">
+    <a href="https://remedies-hxzwsywbjbmetgmzvuhrn6.streamlit.app/" target="_blank" class="btn btn-dark">Try AI Health Advisor →</a>
+    <a href="#blog" class="btn btn-outline">Read the Blog</a>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- APP FEATURE -->
+<section class="app-section" id="app">
+  <div class="container">
+    <div class="section-label">Featured Tool</div>
+    <div class="app-inner">
+
+      <div>
+        <div class="app-tag">Live Now</div>
+        <h2>AI Health<br><em>Advisor</em></h2>
+        <p>Upload your lab report and get an instant, plain-English analysis. Understand what your numbers mean, what to eat, and what to ask your doctor — without needing a medical degree.</p>
+        <ul class="feature-list">
+          <li>Visual health dashboard with colour-coded markers</li>
+          <li>Personalised dietary recommendations</li>
+          <li>Trend tracking across multiple reports</li>
+          <li>Cardiovascular risk prediction</li>
+          <li>AI chat — ask anything about your report</li>
+          <li>Doctor visit preparation sheet</li>
+          <li>Medication interaction checker</li>
+        </ul>
+        <a href="https://remedies-hxzwsywbjbmetgmzvuhrn6.streamlit.app/" target="_blank" class="btn btn-dark">Open the App →</a>
+      </div>
+
+      <!-- Mockup -->
+      <div class="app-mockup">
+        <div class="mockup-bar">
+          <div class="mockup-dot" style="background:#ff5f57"></div>
+          <div class="mockup-dot" style="background:#febc2e"></div>
+          <div class="mockup-dot" style="background:#28c840"></div>
+          <span class="mockup-title">🧠 AI Health Advisor</span>
+        </div>
+        <div class="mockup-body">
+          <div style="font-size:0.78em;font-weight:600;color:var(--mid);margin-bottom:12px;letter-spacing:0.06em;text-transform:uppercase">Your Lab Markers</div>
+
+          <div class="marker-item ok">
+            <span class="marker-name">Glucose</span>
+            <span class="marker-val val-ok">92 mg/dL ✓</span>
+          </div>
+          <div class="marker-item warn">
+            <span class="marker-name">Hemoglobin</span>
+            <span class="marker-val val-warn">9.8 g/dL ↓</span>
+          </div>
+          <div class="marker-item ok">
+            <span class="marker-name">TSH</span>
+            <span class="marker-val val-ok">2.1 mIU/L ✓</span>
+          </div>
+          <div class="marker-item low">
+            <span class="marker-name">Vitamin B12</span>
+            <span class="marker-val val-low">180 pg/mL ↓</span>
+          </div>
+          <div class="marker-item warn">
+            <span class="marker-name">LDL</span>
+            <span class="marker-val val-warn">128 mg/dL ↑</span>
+          </div>
+
+          <div class="mockup-tip">
+            💡 Your iron and B12 are low — include leafy greens and eggs daily. Recheck in 3 months.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="container">
+    <div class="section-label">From the Blog</div>
+    <div class="blogs-header">
+      <h2>Ideas & builds<br>by Amitabh Phatak</h2>
+      <a href="https://amitabhphatak.medium.com/" target="_blank" class="btn btn-outline">All posts on Medium →</a>
+    </div>
+
+    <div class="blog-grid">
+
+      <!-- Blog 1 -->
+      <a href="https://amitabhphatak.medium.com/" target="_blank" class="blog-card">
+        <div class="blog-arrow">↗</div>
+        <div class="blog-num">01</div>
+        <div class="blog-tag">AI Philosophy</div>
+        <h3>Human in the Loop — Or Human at the Center?</h3>
+        <p>A thoughtful exploration of what it truly means to keep humans at the heart of AI systems — not just as reviewers, but as the reason AI exists at all.</p>
+        <div class="blog-meta">
+          <span>Amitabh Phatak</span>
+          <span class="blog-meta-dot">·</span>
+          <span>Feb 2026</span>
+          <span class="blog-meta-dot">·</span>
+          <span>Medium</span>
+        </div>
+      </a>
+
+      <!-- Blog 2 -->
+      <a href="https://amitabhphatak.medium.com/" target="_blank" class="blog-card">
+        <div class="blog-arrow">↗</div>
+        <div class="blog-num">02</div>
+        <div class="blog-tag">Build Log</div>
+        <h3>Building a GPT-Powered Medical Report Summarizer with Email Integration using Zapier MCP</h3>
+        <p>A step-by-step account of how the AI Health Advisor was built — from LangChain chains and PDF parsing to Zapier webhooks delivering reports to your inbox.</p>
+        <div class="blog-meta">
+          <span>Amitabh Phatak</span>
+          <span class="blog-meta-dot">·</span>
+          <span>Medium</span>
+        </div>
+      </a>
+
+      <a href="https://amitabhphatak.medium.com/" target="_blank" class="blog-more">
+        Read all articles on Medium →
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- COMING SOON -->
+<section id="coming" style="background:var(--light)">
+  <div class="container">
+    <div class="section-label">Coming Soon</div>
+    <h2 style="font-family:'Instrument Serif',serif;font-size:clamp(1.6em,2.5vw,2.2em);letter-spacing:-0.02em;margin-bottom:8px">
+      More being built
+    </h2>
+    <p style="color:var(--mid);font-weight:300;font-size:0.95em">
+      HumanYantra is growing. Here's what's in the pipeline.
+    </p>
+
+    <div class="coming-grid">
+
+      <div class="coming-card">
+        <div class="coming-badge">Coming Soon</div>
+        <span class="coming-icon">💬</span>
+        <h3>Community Forum</h3>
+        <p>A space for real conversations about AI — questions, experiences, debates, and ideas. No algorithms, no noise.</p>
+      </div>
+
+      <div class="coming-card">
+        <div class="coming-badge">Coming Soon</div>
+        <span class="coming-icon">⚖️</span>
+        <h3>Ethics & Policy Hub</h3>
+        <p>Curated resources, discussions, and original writing on responsible AI — governance, bias, privacy, and accountability.</p>
+      </div>
+
+      <div class="coming-card">
+        <div class="coming-badge">Coming Soon</div>
+        <span class="coming-icon">🌱</span>
+        <h3>AI Initiatives</h3>
+        <p>A directory of grassroots projects using AI for social good — in health, education, environment, and beyond.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section" id="newsletter">
+  <div class="container">
+    <div class="newsletter-inner">
+
+      <div>
+        <div style="font-size:0.72em;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:16px">
+          Stay in the loop
+        </div>
+        <h2>Thoughtful updates<br>on <em>AI that matters</em></h2>
+        <p style="margin-top:12px">
+          New tools, blog posts, and ideas — delivered occasionally. No spam, no hype.
+        </p>
+        <hr class="nl-divider">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.85em;color:rgba(255,255,255,0.4);font-weight:300">
+            <span style="color:#f5a623">→</span> New AI tool launches
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.85em;color:rgba(255,255,255,0.4);font-weight:300">
+            <span style="color:#f5a623">→</span> Blog posts & build logs
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.85em;color:rgba(255,255,255,0.4);font-weight:300">
+            <span style="color:#f5a623">→</span> Community highlights
+          </div>
+        </div>
+      </div>
+
+      <div class="nl-form">
+        <input type="text" class="nl-input" placeholder="Your name">
+        <div class="nl-row">
+          <input type="email" class="nl-input" placeholder="Your email">
+          <button class="nl-btn">Subscribe</button>
+        </div>
+        <p class="nl-note">No spam. Unsubscribe any time.</p>
+
+        <hr class="nl-divider">
+
+        <div style="text-align:center">
+          <p style="font-size:0.78em;color:rgba(255,255,255,0.3);margin-bottom:14px;font-weight:300">
+            Ready to try the health tool right now?
+          </p>
+          <a href="https://remedies-hxzwsywbjbmetgmzvuhrn6.streamlit.app/" target="_blank"
+             style="display:inline-flex;align-items:center;gap:6px;font-size:0.85em;font-weight:600;color:#f5a623;text-decoration:none">
+            Open AI Health Advisor →
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <a href="/" class="footer-logo">Human<span>Yantra</span></a>
+      <p class="footer-tagline">AI as an instrument of human flourishing.</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Tools</h4>
+        <a href="https://remedies-hxzwsywbjbmetgmzvuhrn6.streamlit.app/" target="_blank">AI Health Advisor</a>
+        <a href="#coming">Coming Soon</a>
+      </div>
+      <div class="footer-col">
+        <h4>Content</h4>
+        <a href="https://amitabhphatak.medium.com/" target="_blank">Blog (Medium)</a>
+        <a href="#newsletter">Newsletter</a>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <a href="#">About</a>
+        <a href="#">Ethics</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 HumanYantra · humanyantra.in</span>
+    <span>Built with purpose</span>
+  </div>
+</footer>
+
+</body>
+</html>
