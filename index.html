@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HumanYantra — AI for Human Good</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,800;1,300;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --saffron:   #E8621A;
+    --gold:      #F5A623;
+    --earth:     #2C1810;
+    --cream:     #FDF6ED;
+    --sage:      #4A7C59;
+    --clay:      #C4704F;
+    --light:     #FFF9F2;
+    --muted:     #8A7060;
+    --border:    #EDD9C4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--light);
+    color: var(--earth);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(253,246,237,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px;
+  }
+
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5em; font-weight: 800;
+    color: var(--earth); text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .logo-mark {
+    width: 36px; height: 36px;
+    background: var(--saffron);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1em; color: white;
+    flex-shrink: 0;
+  }
+  .logo span { color: var(--saffron); }
+
+  .nav-links {
+    display: flex; gap: 32px; list-style: none;
+    font-size: 0.88em; font-weight: 500;
+  }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--saffron); }
+
+  .nav-cta {
+    background: var(--saffron); color: white;
+    padding: 10px 22px; border-radius: 100px;
+    font-size: 0.85em; font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--clay); transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    padding: 120px 5% 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, #F5A62322 0%, transparent 60%),
+                radial-gradient(ellipse at 10% 80%, #E8621A11 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  /* Yantra geometric background */
+  .yantra-bg {
+    position: absolute;
+    right: -80px; top: 50%;
+    transform: translateY(-50%);
+    width: 600px; height: 600px;
+    opacity: 0.04;
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #E8621A18;
+    border: 1px solid #E8621A33;
+    color: var(--saffron);
+    padding: 6px 16px; border-radius: 100px;
+    font-size: 0.78em; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.8em, 5vw, 4.2em);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--saffron);
+  }
+
+  .hero-sub {
+    font-size: 1.1em; line-height: 1.7;
+    color: var(--muted); max-width: 480px;
+    margin-bottom: 40px;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-actions {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--saffron); color: white;
+    padding: 14px 32px; border-radius: 100px;
+    font-weight: 600; font-size: 0.95em;
+    text-decoration: none;
+    transition: all 0.25s;
+    box-shadow: 0 4px 20px #E8621A33;
+  }
+  .btn-primary:hover {
+    background: var(--clay);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px #E8621A44;
+  }
+
+  .btn-secondary {
+    border: 2px solid var(--border);
+    color: var(--earth); background: white;
+    padding: 14px 32px; border-radius: 100px;
+    font-weight: 600; font-size: 0.95em;
+    text-decoration: none;
+    transition: all 0.25s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--saffron);
+    color: var(--saffron);
+    transform: translateY(-2px);
+  }
+
+  .hero-stats {
+    display: flex; gap: 32px; margin-top: 48px;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+  .stat { text-align: left; }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 2em; font-weight: 800;
+    color: var(--saffron);
+  }
+  .stat-label { font-size: 0.78em; color: var(--muted); margin-top: 2px; }
+
+  /* Hero visual */
+  .hero-visual {
+    position: relative;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-card-stack {
+    position: relative;
+    height: 480px;
+  }
+
+  .hero-card {
+    position: absolute;
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 8px 40px #2C181015;
+    border: 1px solid var(--border);
+  }
+
+  .card-main {
+    width: 340px; left: 20px; top: 40px;
+    z-index: 3;
+    animation: float 4s ease-in-out infinite;
+  }
+  .card-secondary {
+    width: 240px; right: 0; top: 20px;
+    z-index: 2;
+    animation: float 4s 1s ease-in-out infinite;
+    background: var(--saffron);
+    color: white;
+  }
+  .card-tertiary {
+    width: 280px; left: 40px; bottom: 20px;
+    z-index: 2;
+    background: var(--sage);
+    color: white;
+    animation: float 4s 2s ease-in-out infinite;
+  }
+
+  .card-tag {
+    font-size: 0.7em; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    opacity: 0.7; margin-bottom: 10px;
+  }
+  .card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1em; font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .card-body { font-size: 0.82em; opacity: 0.8; line-height: 1.5; }
+
+  .marker-row {
+    display: flex; justify-content: space-between;
+    align-items: center; padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.82em;
+  }
+  .marker-row:last-child { border: none; }
+  .marker-val { font-weight: 700; }
+  .marker-ok { color: var(--sage); }
+  .marker-warn { color: var(--saffron); }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* ── MOVEMENT BANNER ── */
+  .movement {
+    background: var(--earth);
+    color: white;
+    padding: 80px 5%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .movement::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, #E8621A22, transparent 70%);
+  }
+  .movement h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2em, 4vw, 3.2em);
+    font-weight: 800;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .movement h2 em { color: var(--gold); font-style: italic; }
+  .movement p {
+    font-size: 1.1em; opacity: 0.75;
+    max-width: 600px; margin: 0 auto 40px;
+    line-height: 1.7; position: relative;
+  }
+
+  /* Scrolling ticker */
+  .ticker-wrap {
+    overflow: hidden;
+    border-top: 1px solid #ffffff22;
+    border-bottom: 1px solid #ffffff22;
+    padding: 16px 0;
+    margin-top: 60px;
+  }
+  .ticker {
+    display: flex; gap: 60px;
+    animation: ticker 20s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker-item {
+    font-size: 0.85em; opacity: 0.5;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    font-weight: 600; flex-shrink: 0;
+  }
+  .ticker-item span { color: var(--gold); margin-right: 60px; }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── OFFERINGS ── */
+  .offerings {
+    padding: 100px 5%;
+  }
+  .section-label {
+    font-size: 0.78em; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--saffron); margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2em, 3.5vw, 2.8em);
+    font-weight: 800;
+    line-height: 1.2;
+    max-width: 600px;
+    margin-bottom: 60px;
+  }
+
+  .offerings-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px;
+  }
+
+  .offering-card {
+    background: white;
+    border-radius: 20px;
+    padding: 36px;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    cursor: pointer;
+  }
+  .offering-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px #2C181015;
+    border-color: var(--saffron);
+  }
+  .offering-card.featured {
+    grid-row: span 2;
+    background: var(--earth);
+    color: white;
+    border-color: var(--earth);
+  }
+  .offering-card.featured:hover {
+    border-color: var(--saffron);
+  }
+
+  .card-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5em; margin-bottom: 20px;
+    flex-shrink: 0;
+  }
+  .icon-health { background: #E8621A22; }
+  .icon-blog   { background: #4A7C5922; }
+  .icon-forum  { background: #F5A62322; }
+  .icon-init   { background: #C4704F22; }
+  .featured .card-icon { background: #ffffff18; }
+
+  .offering-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3em; font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .offering-card p {
+    font-size: 0.88em; line-height: 1.65;
+    color: var(--muted);
+  }
+  .featured p { color: rgba(255,255,255,0.65); }
+
+  .card-arrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.82em; font-weight: 600;
+    color: var(--saffron); margin-top: 20px;
+  }
+  .featured .card-arrow { color: var(--gold); }
+
+  .featured-badge {
+    position: absolute; top: 24px; right: 24px;
+    background: var(--saffron);
+    color: white; font-size: 0.7em;
+    font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px; border-radius: 100px;
+  }
+
+  /* ── BLOG PREVIEW ── */
+  .blogs {
+    padding: 100px 5%;
+    background: var(--cream);
+  }
+
+  .blogs-header {
+    display: flex; justify-content: space-between;
+    align-items: flex-end; margin-bottom: 48px;
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .blog-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .blog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px #2C181012;
+  }
+
+  .blog-thumb {
+    height: 180px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3em;
+    position: relative;
+    overflow: hidden;
+  }
+  .thumb-health { background: linear-gradient(135deg, #E8621A22, #F5A62333); }
+  .thumb-ai     { background: linear-gradient(135deg, #4A7C5922, #2C181022); }
+  .thumb-ethics { background: linear-gradient(135deg, #C4704F22, #E8621A22); }
+
+  .blog-body { padding: 24px; }
+  .blog-tag {
+    font-size: 0.72em; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--saffron); margin-bottom: 10px;
+  }
+  .blog-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05em; font-weight: 700;
+    line-height: 1.35; margin-bottom: 10px;
+  }
+  .blog-card p {
+    font-size: 0.82em; color: var(--muted);
+    line-height: 1.6; margin-bottom: 16px;
+  }
+  .blog-meta {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 0.75em; color: var(--muted);
+  }
+  .blog-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--saffron);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 0.75em; font-weight: 700;
+  }
+
+  /* ── FORUM ── */
+  .forum-preview {
+    padding: 100px 5%;
+  }
+
+  .forum-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 48px;
+  }
+
+  .forum-thread {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex; gap: 16px;
+    transition: all 0.25s;
+    cursor: pointer;
+  }
+  .forum-thread:hover {
+    border-color: var(--saffron);
+    transform: translateX(4px);
+  }
+
+  .thread-votes {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 4px;
+    min-width: 36px;
+  }
+  .vote-btn {
+    width: 28px; height: 28px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9em; cursor: pointer;
+    transition: all 0.2s; background: white;
+  }
+  .vote-btn:hover { border-color: var(--saffron); background: #E8621A11; }
+  .vote-count { font-size: 0.85em; font-weight: 700; color: var(--earth); }
+
+  .thread-body { flex: 1; }
+  .thread-cat {
+    font-size: 0.7em; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 6px;
+  }
+  .thread-body h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 0.95em; font-weight: 700;
+    margin-bottom: 8px; line-height: 1.35;
+  }
+  .thread-meta {
+    display: flex; gap: 16px;
+    font-size: 0.75em; color: var(--muted);
+  }
+  .thread-meta span { display: flex; align-items: center; gap: 4px; }
+
+  /* ── INITIATIVES ── */
+  .initiatives {
+    padding: 100px 5%;
+    background: var(--cream);
+  }
+
+  .init-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .init-card {
+    border-radius: 20px;
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+    cursor: pointer;
+  }
+  .init-card:hover { transform: translateY(-4px); }
+  .init-1 { background: linear-gradient(135deg, #E8621A, #F5A623); color: white; }
+  .init-2 { background: linear-gradient(135deg, #2C1810, #4A3728); color: white; }
+  .init-3 { background: white; border: 2px solid var(--border); }
+
+  .init-number {
+    font-family: 'Fraunces', serif;
+    font-size: 4em; font-weight: 800;
+    opacity: 0.15; line-height: 1;
+    margin-bottom: -20px;
+  }
+  .init-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2em; font-weight: 700;
+    margin-bottom: 12px; position: relative;
+  }
+  .init-card p {
+    font-size: 0.85em; line-height: 1.65;
+    opacity: 0.8; position: relative;
+  }
+  .init-3 p { color: var(--muted); opacity: 1; }
+  .init-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px; border-radius: 100px;
+    font-size: 0.72em; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .init-3 .init-tag { background: #E8621A18; color: var(--saffron); }
+
+  /* ── NEWSLETTER ── */
+  .newsletter {
+    padding: 100px 5%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    background: var(--earth);
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .newsletter::before {
+    content: '';
+    position: absolute;
+    right: -100px; top: -100px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #E8621A22, transparent 70%);
+  }
+
+  .newsletter h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.8em, 3vw, 2.6em);
+    font-weight: 800; line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .newsletter h2 em { color: var(--gold); font-style: italic; }
+  .newsletter p { opacity: 0.65; line-height: 1.7; font-size: 0.95em; }
+
+  .newsletter-form { position: relative; }
+  .form-group {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    padding: 8px 8px 8px 24px;
+    display: flex; align-items: center;
+    gap: 12px; margin-bottom: 16px;
+  }
+  .form-group input {
+    flex: 1; background: none; border: none;
+    color: white; font-size: 0.92em;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+  }
+  .form-group input::placeholder { opacity: 0.45; }
+  .form-submit {
+    background: var(--saffron); color: white;
+    border: none; padding: 12px 24px;
+    border-radius: 10px; font-weight: 700;
+    font-size: 0.88em; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .form-submit:hover { background: var(--clay); }
+  .form-note { font-size: 0.75em; opacity: 0.45; }
+
+  .promise-list { margin-top: 32px; }
+  .promise-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    margin-bottom: 16px; font-size: 0.88em; opacity: 0.75;
+  }
+  .promise-dot {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--gold); color: var(--earth);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7em; font-weight: 800; flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #1A0E08;
+    color: white;
+    padding: 60px 5% 40px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid #ffffff15;
+    margin-bottom: 32px;
+  }
+  .footer-brand p {
+    font-size: 0.85em; opacity: 0.5;
+    line-height: 1.7; margin-top: 16px;
+    max-width: 280px;
+  }
+  .footer-col h4 {
+    font-size: 0.78em; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    opacity: 0.4; margin-bottom: 16px;
+  }
+  .footer-col a {
+    display: block; color: rgba(255,255,255,0.6);
+    text-decoration: none; font-size: 0.88em;
+    margin-bottom: 10px; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--gold); }
+  .footer-bottom {
+    display: flex; justify-content: space-between;
+    font-size: 0.78em; opacity: 0.35;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.6s, transform 0.6s;
+  }
+  .reveal.visible {
+    opacity: 1; transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding-top: 100px; }
+    .hero-visual { display: none; }
+    .offerings-grid { grid-template-columns: 1fr; }
+    .offering-card.featured { grid-row: span 1; }
+    .blog-grid { grid-template-columns: 1fr; }
+    .forum-grid { grid-template-columns: 1fr; }
+    .init-grid { grid-template-columns: 1fr; }
+    .newsletter { grid-template-columns: 1fr; gap: 40px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark">⚙</div>
+    Human<span>Yantra</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#offerings">Tools</a></li>
+    <li><a href="#blogs">Knowledge</a></li>
+    <li><a href="#forum">Community</a></li>
+    <li><a href="#initiatives">Initiatives</a></li>
+    <li><a href="#newsletter">Newsletter</a></li>
+  </ul>
+  <a href="#newsletter" class="nav-cta">Join the Movement →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      🇮🇳 &nbsp; Made in India, for Humanity
+    </div>
+    <h1>AI as a <em>tool</em> for human <em>flourishing</em></h1>
+    <p class="hero-sub">
+      HumanYantra is a community platform where AI meets purpose — health, knowledge, ethics, and people-first initiatives. No hype. Just tools that genuinely help.
+    </p>
+    <div class="hero-actions">
+      <a href="#offerings" class="btn-primary">Explore Tools →</a>
+      <a href="#forum" class="btn-secondary">Join Community</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">1</div>
+        <div class="stat-label">Live AI Tool</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Use Cases Ahead</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">🇮🇳</div>
+        <div class="stat-label">India-first Lens</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-card-stack">
+      <!-- Health Dashboard Card -->
+      <div class="hero-card card-main">
+        <div class="card-tag">🧠 AI Health Advisor</div>
+        <div class="card-title">Your Lab Report, Explained</div>
+        <div class="marker-row">
+          <span>Hemoglobin</span>
+          <span class="marker-val marker-warn">9.8 g/dL ⬇️</span>
+        </div>
+        <div class="marker-row">
+          <span>Glucose</span>
+          <span class="marker-val marker-ok">92 mg/dL ✅</span>
+        </div>
+        <div class="marker-row">
+          <span>Vitamin B12</span>
+          <span class="marker-val marker-warn">180 pg/mL ⬇️</span>
+        </div>
+        <div class="marker-row">
+          <span>TSH</span>
+          <span class="marker-val marker-ok">2.1 mIU/L ✅</span>
+        </div>
+        <div style="margin-top:14px;padding:10px 14px;background:#E8621A11;border-radius:10px;font-size:0.8em;color:var(--saffron);font-weight:600;">
+          💡 Include palak dal & rajma — your iron is low
+        </div>
+      </div>
+
+      <!-- Forum card -->
+      <div class="hero-card card-secondary">
+        <div class="card-tag" style="color:rgba(255,255,255,0.7)">💬 Community</div>
+        <div class="card-title">AI for Rural Health</div>
+        <div class="card-body">47 members discussing offline-first AI solutions for tier-3 cities</div>
+      </div>
+
+      <!-- Blog card -->
+      <div class="hero-card card-tertiary">
+        <div class="card-tag" style="color:rgba(255,255,255,0.7)">📖 Latest Read</div>
+        <div class="card-title">Why India needs ethical AI guardrails now</div>
+        <div class="card-body">5 min read · AI Policy</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOVEMENT BANNER -->
+<section class="movement">
+  <h2>AI should serve <em>people</em>,<br>not the other way around.</h2>
+  <p>We build tools, share knowledge, and foster conversations that keep humans at the centre of the AI revolution.</p>
+  <a href="#newsletter" class="btn-primary" style="position:relative">Be Part of It →</a>
+
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <span class="ticker-item">AI Health <span>✦</span></span>
+      <span class="ticker-item">Knowledge Commons <span>✦</span></span>
+      <span class="ticker-item">Ethical AI <span>✦</span></span>
+      <span class="ticker-item">Community Forum <span>✦</span></span>
+      <span class="ticker-item">People-first Tech <span>✦</span></span>
+      <span class="ticker-item">India & Beyond <span>✦</span></span>
+      <span class="ticker-item">AI Health <span>✦</span></span>
+      <span class="ticker-item">Knowledge Commons <span>✦</span></span>
+      <span class="ticker-item">Ethical AI <span>✦</span></span>
+      <span class="ticker-item">Community Forum <span>✦</span></span>
+      <span class="ticker-item">People-first Tech <span>✦</span></span>
+      <span class="ticker-item">India & Beyond <span>✦</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- OFFERINGS -->
+<section class="offerings" id="offerings">
+  <div class="section-label">What We Offer</div>
+  <div class="section-title">Tools & spaces built for real human needs</div>
+
+  <div class="offerings-grid">
+
+    <!-- Featured: Health Advisor -->
+    <a href="https://remedies-hxzwsywbjbmetgmzvuhrn6.streamlit.app/" class="offering-card featured" target="_blank">
+      <div class="featured-badge">Live Now</div>
+      <div class="card-icon featured">🧠</div>
+      <h3>AI Health Advisor</h3>
+      <p>Upload your lab reports and get instant plain-English analysis, Indian diet recommendations, trend tracking, cardiovascular risk prediction, and a personalised 30-day action plan.</p>
+      <p style="margin-top:16px;font-size:0.82em;opacity:0.5">Built for Indian labs — Thyrocare, SRL, Metropolis, Apollo</p>
+      <div class="card-arrow">Open App →</div>
+    </a>
+
+    <!-- Knowledge Blogs -->
+    <a href="#blogs" class="offering-card">
+      <div class="card-icon icon-blog">📖</div>
+      <h3>Knowledge Blogs</h3>
+      <p>Plain-English explainers on AI concepts, health literacy, ethics, and policy — written for curious people, not researchers.</p>
+      <div class="card-arrow">Read Articles →</div>
+    </a>
+
+    <!-- Community Forum -->
+    <a href="#forum" class="offering-card">
+      <div class="card-icon icon-forum">💬</div>
+      <h3>Community Forum</h3>
+      <p>Ask questions, share experiences, debate ideas. A respectful space for people curious about AI's role in daily life.</p>
+      <div class="card-arrow">Join Discussions →</div>
+    </a>
+
+    <!-- People-enabling Initiatives -->
+    <a href="#initiatives" class="offering-card">
+      <div class="card-icon icon-init">🌱</div>
+      <h3>AI Initiatives</h3>
+      <p>Showcasing and supporting grassroots projects using AI for good — in health, education, agriculture, and governance.</p>
+      <div class="card-arrow">See Initiatives →</div>
+    </a>
+
+    <!-- Coming soon placeholder -->
+    <div class="offering-card" style="border-style:dashed;opacity:0.5;cursor:default">
+      <div class="card-icon" style="background:#eee">➕</div>
+      <h3>More Coming</h3>
+      <p>New AI tools in the pipeline — financial literacy, legal aid, agriculture, mental wellness. Suggest what you need.</p>
+      <div class="card-arrow" style="color:var(--muted)">Suggest a Tool →</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BLOGS -->
+<section class="blogs" id="blogs">
+  <div class="blogs-header">
+    <div>
+      <div class="section-label">Knowledge Hub</div>
+      <div class="section-title" style="margin-bottom:0">Ideas worth understanding</div>
+    </div>
+    <a href="#" class="btn-secondary" style="white-space:nowrap">All Articles →</a>
+  </div>
+
+  <div class="blog-grid reveal">
+    <div class="blog-card">
+      <div class="blog-thumb thumb-health">🩸</div>
+      <div class="blog-body">
+        <div class="blog-tag">Health & AI</div>
+        <h3>How to actually read your blood report — without a medical degree</h3>
+        <p>A practical guide to understanding CBC, LFT, KFT and thyroid panels with the help of AI tools.</p>
+        <div class="blog-meta">
+          <div class="blog-avatar">A</div>
+          <span>Amitabh P.</span> · <span>6 min read</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <div class="blog-thumb thumb-ai">🤖</div>
+      <div class="blog-body">
+        <div class="blog-tag">AI Literacy</div>
+        <h3>What LLMs actually are — and what they're not good at</h3>
+        <p>Cutting through the hype to understand where AI genuinely helps and where it still falls short.</p>
+        <div class="blog-meta">
+          <div class="blog-avatar" style="background:var(--sage)">H</div>
+          <span>HumanYantra Team</span> · <span>8 min read</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <div class="blog-thumb thumb-ethics">⚖️</div>
+      <div class="blog-body">
+        <div class="blog-tag">Ethics & Policy</div>
+        <h3>India's AI policy gap — and what communities can do about it</h3>
+        <p>Why grassroots AI ethics matters more than top-down regulation in a diverse democracy like India.</p>
+        <div class="blog-meta">
+          <div class="blog-avatar" style="background:var(--clay)">G</div>
+          <span>Guest Author</span> · <span>10 min read</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORUM -->
+<section class="forum-preview" id="forum">
+  <div class="section-label">Community Forum</div>
+  <div class="section-title">Real conversations, real people</div>
+
+  <div class="forum-grid reveal">
+    <div class="forum-thread">
+      <div class="thread-votes">
+        <button class="vote-btn">▲</button>
+        <div class="vote-count">24</div>
+        <button class="vote-btn">▼</button>
+      </div>
+      <div class="thread-body">
+        <div class="thread-cat">🧠 AI Health</div>
+        <h4>My Thyrocare report shows TSH 5.8 — AI says borderline, doctor says wait. What did others do?</h4>
+        <div class="thread-meta">
+          <span>👤 Priya M.</span>
+          <span>💬 18 replies</span>
+          <span>🕐 2h ago</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="forum-thread">
+      <div class="thread-votes">
+        <button class="vote-btn">▲</button>
+        <div class="vote-count">31</div>
+        <button class="vote-btn">▼</button>
+      </div>
+      <div class="thread-body">
+        <div class="thread-cat">⚖️ Ethics</div>
+        <h4>Should AI health tools require a medical disclaimer by law in India? Discuss.</h4>
+        <div class="thread-meta">
+          <span>👤 Rahul D.</span>
+          <span>💬 42 replies</span>
+          <span>🕐 5h ago</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="forum-thread">
+      <div class="thread-votes">
+        <button class="vote-btn">▲</button>
+        <div class="vote-count">15</div>
+        <button class="vote-btn">▼</button>
+      </div>
+      <div class="thread-body">
+        <div class="thread-cat">🌱 Initiatives</div>
+        <h4>Building an offline AI health assistant for Rajasthan tribal areas — looking for collaborators</h4>
+        <div class="thread-meta">
+          <span>👤 Sunita K.</span>
+          <span>💬 9 replies</span>
+          <span>🕐 1d ago</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="forum-thread">
+      <div class="thread-votes">
+        <button class="vote-btn">▲</button>
+        <div class="vote-count">8</div>
+        <button class="vote-btn">▼</button>
+      </div>
+      <div class="thread-body">
+        <div class="thread-cat">📖 AI Literacy</div>
+        <h4>Explain AI to my 60-year-old parent in one sentence — best answers win</h4>
+        <div class="thread-meta">
+          <span>👤 Vikram S.</span>
+          <span>💬 63 replies</span>
+          <span>🕐 3d ago</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:40px">
+    <a href="#" class="btn-primary">Join the Forum →</a>
+  </div>
+</section>
+
+<!-- INITIATIVES -->
+<section class="initiatives" id="initiatives">
+  <div class="section-label">People-Enabling AI</div>
+  <div class="section-title">Initiatives that put humans first</div>
+
+  <div class="init-grid reveal">
+    <div class="init-card init-1">
+      <div class="init-number">01</div>
+      <div class="init-tag">Health</div>
+      <h3>AI Health for Bharat</h3>
+      <p>Making AI-powered health analysis accessible in tier-2 and tier-3 cities, in regional languages, with offline-friendly design.</p>
+    </div>
+
+    <div class="init-card init-2">
+      <div class="init-number">02</div>
+      <div class="init-tag">Education</div>
+      <h3>AI Literacy for Everyone</h3>
+      <p>Free workshops, guides and community sessions explaining how AI works — and doesn't — for non-technical Indians.</p>
+    </div>
+
+    <div class="init-card init-3">
+      <div class="init-number">03</div>
+      <div class="init-tag">Open Call</div>
+      <h3>Propose an Initiative</h3>
+      <p>Have an idea for using AI for community good? We'll help you build it — with technology, community support, and visibility.</p>
+      <div style="margin-top:20px">
+        <a href="#" class="btn-primary" style="font-size:0.85em;padding:10px 22px">Submit Your Idea →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter" id="newsletter">
+  <div>
+    <h2>Stay connected to the <em>movement</em></h2>
+    <p>No spam. No noise. Just thoughtful updates on new tools, interesting discussions, and AI initiatives doing genuine good.</p>
+
+    <div class="promise-list">
+      <div class="promise-item">
+        <div class="promise-dot">✓</div>
+        <span>New AI tool launches first</span>
+      </div>
+      <div class="promise-item">
+        <div class="promise-dot">✓</div>
+        <span>Curated blog posts on AI & health</span>
+      </div>
+      <div class="promise-item">
+        <div class="promise-dot">✓</div>
+        <span>Community highlights from the forum</span>
+      </div>
+      <div class="promise-item">
+        <div class="promise-dot">✓</div>
+        <span>Monthly initiative spotlight</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="newsletter-form">
+    <h3 style="font-family:'Fraunces',serif;font-size:1.4em;margin-bottom:8px;font-weight:700">
+      Join 0 curious humans
+    </h3>
+    <p style="font-size:0.85em;opacity:0.5;margin-bottom:24px">Be among the first. Shape what HumanYantra becomes.</p>
+
+    <div class="form-group">
+      <span style="opacity:0.4">👤</span>
+      <input type="text" placeholder="Your name">
+    </div>
+    <div class="form-group">
+      <span style="opacity:0.4">📧</span>
+      <input type="email" placeholder="Your email address">
+      <button class="form-submit">Subscribe →</button>
+    </div>
+    <p class="form-note">No spam. Unsubscribe any time. Your data stays private.</p>
+
+    <div style="margin-top:32px;padding:20px;background:rgba(255,255,255,0.05);border-radius:14px;border:1px solid rgba(255,255,255,0.1)">
+      <p style="font-size:0.82em;opacity:0.6;margin-bottom:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase">Or try the Health Advisor now →</p>
+      <a href="https://remedies-hxzwsywbjbmetgmzvuhrn6.streamlit.app/" target="_blank" class="btn-primary" style="font-size:0.88em;display:inline-block">
+        🧠 Open AI Health Advisor
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo" style="color:white">
+        <div class="logo-mark">⚙</div>
+        Human<span>Yantra</span>
+      </a>
+      <p>AI as an instrument of human flourishing. Built with purpose, for people, from India.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Tools</h4>
+      <a href="#">AI Health Advisor</a>
+      <a href="#">Coming Soon</a>
+      <a href="#">Suggest a Tool</a>
+    </div>
+    <div class="footer-col">
+      <h4>Community</h4>
+      <a href="#">Forum</a>
+      <a href="#">Knowledge Blogs</a>
+      <a href="#">Initiatives</a>
+      <a href="#">Newsletter</a>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <a href="#">About</a>
+      <a href="#">Ethics Policy</a>
+      <a href="#">Privacy</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 HumanYantra · huanyantra.in</span>
+    <span>Made with ❤️ for humanity</span>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Smooth nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current
+        ? 'var(--saffron)' : '';
+    });
+  });
+</script>
+
+</body>
+</html>
